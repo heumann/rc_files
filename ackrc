@@ -1,0 +1,4 @@
+--color
+--group
+#commented out because it always uses the pager, even when it doesn't need to
+#--pager=less -RI
