@@ -108,7 +108,9 @@ autocmd!
         map ,, :set hlsearch!<CR>
 
         " create folds quickly
-        vmap {{{ <ESC>`>o# }}}<ESC>`<O# {{{
+        "   fold on an extra line and close
+        vmap {{{ <ESC>`>o}}}<ESC>`<O{{{<ESC>zc
+        "   fold on the same line
         vmap }}} <ESC>`>o}}}<ESC>`<O{{{<ESC>J
 
         " mappings for mulitple-file sessions
@@ -124,7 +126,8 @@ autocmd!
         map Q :q
 
         " make a line into a header
-        map gh 0gU$yyp^v$r-
+        map gh yyp^v$r-
+          " the version with uppercasing: map gh 0gU$yyp^v$r-
 
         " make a line into a header, but don't alter the line
         map gH yypVr-
@@ -140,7 +143,7 @@ autocmd!
         map ,8 /\%80v.*<CR>
 
         " search the current file
-        map ,/ :!clear;ack -ai  % \| less -R<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+        map ,/ :!clear;ack -i  % \| less -R<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 
         " format paragraph
         map ,c mhA<space><esc>:%s/\s\+$//g<cr>`hgwap
@@ -156,7 +159,7 @@ autocmd!
         map ,ns mh:%s/\s\+$//g<CR>`h
 
         " search for the current word in the current directory
-        map ,k :!clear;ack -ai <cword> \| less -R<cr>
+        map ,k :!clear;ack -i <cword> \| less -R<cr>
     "}}}
 " }}}
 
@@ -183,8 +186,8 @@ autocmd!
     map ,e o<ESC>0C__END__<ESC>
 
     " prove and perl the current file
-    map <F9>  :w:!clear;echo "";prove -mlv %
-    map <F10> :w:!clear;echo "";perl %
+    map <F9>  :w^M:!clear;echo "";prove -mlv %^M
+    map <F10> :w^M:!clear;echo "";perl %^M
 
     " remapping the bufexplorer hook
     map ,b \be
@@ -232,7 +235,7 @@ autocmd!
     map td mh/use test::more<cr><c-x>`h
 
     " find all of the subs declared in this file
-    map ,su :!clear;ack -ai --output='$1' '^sub\s(\w+)' % \| sort<cr>
+    map ,su :!clear;ack -i --output='$1' '^sub\s(\w+)' % \| sort<cr>
 " }}}
 
 " {{{ SQL
@@ -299,7 +302,7 @@ map gt4 :set shiftwidth=4<cr>:set tabstop=4<cr>
 map ,sd :!git diff % \| ~/bin/diff_painter.pl \| less -R<CR>
 map ,gc :!git ci -m "" %<left><left><left>
 
-autocmd BufNewFile,BufRead *html* map <F10> :w:!open %
+autocmd BufNewFile,BufRead *html* map <F10> :w^M:!open %^M
 
 " highlight the current word everywhere
 map ,hl :set hlsearch<cr>:let @/='\<' . expand("<cword>") . '\>'<cr>
@@ -309,3 +312,10 @@ set tabstop=2
 set shiftwidth=2
 map ,sd :!svn diff % \| ~/bin/diff_painter.pl \| less -R<CR>
 set invwrap
+
+map ,wt :%s/'/'/ge<cr>:%w !cat -v \| pbcopy<cr>
+
+map ,r i*<esc>:r !date "+\%Y-\%m-\%d"<cr>kJxA*<esc>
+
+" set up a meeting notes file
+map gm gho<esc>,r
