@@ -314,6 +314,7 @@ map ,sd :!svn diff % \| ~/bin/diff_painter.pl \| less -R<CR>
 set invwrap
 
 map ,wt :%s/'/'/ge<cr>:%w !cat -v \| pbcopy<cr>
+map ,ww <esc>:'<,'>w !cat -v \| pbcopy<CR>
 
 map ,r i*<esc>:r !date "+\%Y-\%m-\%d"<cr>kJxA*<esc>
 
